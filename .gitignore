@@ -31,8 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
-application.properties
-pom.xml
-mvnw
-mvnw.cmd
-maven-wrapper.properties
+
