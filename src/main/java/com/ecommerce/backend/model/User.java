@@ -22,9 +22,10 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Integer id;
 
-    @Column(name = "full_name", length = 100)
+    @Column(name = "username", length = 255)
     private String fullName;
 
     @Column(length = 100)

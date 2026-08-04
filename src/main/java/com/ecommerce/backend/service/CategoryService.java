@@ -19,7 +19,7 @@ public class CategoryService {
                 .toList();
     }
 
-    public CategoryResponse getCategoryById(Integer id) {
+    public CategoryResponse getCategoryById(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
         return toResponse(category);
