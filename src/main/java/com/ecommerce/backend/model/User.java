@@ -34,4 +34,8 @@ public class User {
     @JsonIgnore
     @Column(length = 100)
     private String password;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private String role = "CUSTOMER";
 }

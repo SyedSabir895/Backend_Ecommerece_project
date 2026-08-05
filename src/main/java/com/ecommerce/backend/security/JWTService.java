@@ -18,20 +18,41 @@ public class JWTService {
     @Value("${jwt.expiration:86400000}")
     private long jwtExpiration;
 
-    public String generateToken(String email) {
+    public String generateToken(String email, String role) {
         Date now = new Date();
         Date expirationDate = new Date(now.getTime() + jwtExpiration);
 
         return Jwts.builder()
                 .subject(email)
+                .claim("role", normalizeRole(role))
                 .issuedAt(now)
                 .expiration(expirationDate)
                 .signWith(getSigningKey())
                 .compact();
     }
 
+    public String normalizeRole(String role) {
+        if (role == null || role.isBlank()) {
+            return "ROLE_USER";
+        }
+
+        String normalized = role.trim().toUpperCase();
+        if ("ADMIN".equals(normalized) || "ROLE_ADMIN".equals(normalized)) {
+            return "ROLE_ADMIN";
+        }
+        if ("CUSTOMER".equals(normalized) || "USER".equals(normalized) || "ROLE_USER".equals(normalized)) {
+            return "ROLE_USER";
+        }
+
+        return normalized.startsWith("ROLE_") ? normalized : "ROLE_USER";
+    }
+
     public String extractEmail(String token) {
         return extractAllClaims(token).getSubject();
+    }
+
+      public String extractRole(String token) {
+        return extractAllClaims(token).get("role", String.class);
     }
 
     public boolean isTokenValid(String token, String email) {
