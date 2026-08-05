@@ -31,7 +31,8 @@ public class AuthService {
                 .build();
 
         User savedUser = userRepository.save(user);
-        String token = jwtService.generateToken(savedUser.getEmail());
+        String role = jwtService.normalizeRole(savedUser.getRole());
+        String token = jwtService.generateToken(savedUser.getEmail(), role);
 
         try {
             emailService.sendSimpleEmail(
@@ -49,6 +50,7 @@ public class AuthService {
                 .fullName(savedUser.getFullName())
                 .email(savedUser.getEmail())
                 .token(token)
+                .role(role)
                 .build();
     }
 
@@ -60,7 +62,8 @@ public class AuthService {
             throw new RuntimeException("Invalid email or password");
         }
 
-        String token = jwtService.generateToken(user.getEmail());
+        String role = jwtService.normalizeRole(user.getRole());
+        String token = jwtService.generateToken(user.getEmail(), role);
 
         return AuthResponse.builder()
                 .message("Login successful")
@@ -68,6 +71,7 @@ public class AuthService {
                 .fullName(user.getFullName())
                 .email(user.getEmail())
                 .token(token)
+            .role(role)
                 .build();
     }
 }

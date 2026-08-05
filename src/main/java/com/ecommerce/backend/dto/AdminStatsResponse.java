@@ -9,12 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthResponse {
-
-    private String message;
-    private Integer userId;
-    private String fullName;
-    private String email;
-    private String token;
-    private String role;
+public class AdminStatsResponse {
+    private long totalProducts;
+    private long totalCategories;
+    private long totalUsers;
+    private long totalCartItems;
 }
